@@ -1,0 +1,10 @@
+version: '2'
+services:
+  munin-node:
+    restart: "always"
+    image: "munin-node"
+    environment:
+      ALLOW: "cidr_allow 0.0.0.0/0"
+    volumes:
+      - ./data/plugins:/var/lib/muninplugins
+    privileged: true
