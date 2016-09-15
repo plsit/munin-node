@@ -1,8 +1,8 @@
 version: '2'
 services:
   munin-node:
-    restart: "always"
-    image: "plsit/munin-node"
+    restart: always
+    image: plsit/munin-node
     build:
       context: .
     environment:
