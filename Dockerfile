@@ -8,14 +8,17 @@ RUN apt-get update -y && \
       apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN apt-get update -y && \
-      apt-get install -y munin-node telnet mtr wget dnsutils && \
+      apt-get install -y python munin-node munin-plugins-extra telnet mtr wget dnsutils && \
       apt-get clean && \
       rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ADD ./plugins/* /usr/share/munin/plugins/
+RUN ln -s /usr/share/munin/plugins/cpu_by_process /etc/munin/plugins/cpu_by_process && mkdir -p /var/log/munin/; chown -R munin:munin /var/log/munin/
 
-RUN ln -s /usr/share/munin/plugins/cpu_by_process /etc/munin/plugins/cpu_by_process && munin-node-configure --shell | sh && mkdir -p /var/log/munin/; chown -R munin:munin /var/log/munin/
+ADD ./autoconfigure.py /usr/bin/munin-node-autoconfigure
+RUN chmod +x /usr/bin/munin-node-autoconfigure
 
 ADD bootstrap.sh /root/bootstrap.sh
+
+EXPOSE 4949
 
 CMD /root/bootstrap.sh

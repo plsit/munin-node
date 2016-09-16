@@ -6,7 +6,9 @@ services:
     build:
       context: .
     environment:
-      ALLOW: "cidr_allow 0.0.0.0/0"
+      ALLOW: "allow"
     volumes:
       - ./data/plugins:/var/lib/muninplugins
     privileged: true
+    ports:
+      - "4949:4949"
